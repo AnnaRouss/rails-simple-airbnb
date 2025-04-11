@@ -1,28 +1,51 @@
-<%= form_with url: flats_path, method: :get, local: true do %>
-  <div class="input-group mb-3">
-    <%= text_field_tag :query, params[:query], class: 'form-control', placeholder: 'Search flats...' %>
-    <button class="btn btn-outline-secondary" type="submit">Search</button>
-  </div>
-<% end %>
-<h1>All Flats</h1>
-
-<div class="row">
-  <% @flats.each do |flat| %>
-  <div class="col-md-4">
-    <div class="card mb-4">
-      <% if flat.picture_url.present? %>
-        <img src="<%= flat.picture_url %>" class="card-img-top" alt="Flat image">
-      <% end %>
-      <div class="card-body">
-        <h5 class="card-title"><%= flat.name %></h5>
-        <p class="card-text"><%= flat.description %></p>
-        <p class="card-text"><%= flat.address %></p>
-        <p class="card-text"><i class="fas fa-user-friends"></i><%= flat.number_of_guests %> €<%= flat.price_per_night %></p>
-        <hr>
-        <%= link_to 'More Info', flat_path(flat), class: "btn btn-outline-primary" %>
-        <%= link_to 'Edit', edit_flat_path(flat), class: "btn btn-outline-warning" %>
-        <%= link_to 'Remove', flat_path(flat), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: "btn btn-outline-danger" %>
-      </div>
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-12">
+      <h1>All our Flats</h1>
     </div>
   </div>
-<% end %>
+
+  <div class="row">
+    <div class="col">
+      <% if @query %>
+        <p>You searched for <strong><%= @query %></strong>. We found <%= @flats.count %> flats out of our <%= Flat.count %> on our website.</p>
+      <% else %>
+        <p>All <%= Flat.count %> flats.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <% @flats.each do |flat| %>
+      <div class="col-md-4">
+        <div class="flat-card">
+          <div class="flat-card-image" style="background-image: url('<%= flat.picture_url %>')"></div>
+          <div class="flat-card-content">
+            <div class="flat-card-title">
+              <h4><%= flat.name %></h4>
+            </div>
+            <p><%= flat.address %></p>
+            <div class="flex">
+              <div class="flex align-items-center">
+                <i class="fa-solid fa-people-line"></i>
+                <span><%= flat.number_of_guests %></span>
+              </div>
+              <div class="flex align-items-center ms-3">
+                <i class="fa-solid fa-euro-sign"></i>
+                <span><%= flat.price_per_night %></span>
+              </div>
+            </div>
+          </div>
+          <div class="flat-card-actions">
+            <%= link_to "More info", flat_path(flat) %>
+            <%= link_to "Edit", edit_flat_path(flat), class: "ms-3 text-warning" %>
+            <%= link_to "Remove", flat_path(flat),
+                data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                class: "ms-3 text-danger"
+            %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
