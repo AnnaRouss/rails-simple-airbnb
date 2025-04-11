@@ -1,0 +1,13 @@
+<h1><%= @flat.new_record? ? 'New Flat' : 'Edit Flat' %></h1>
+<%= render 'form' %>
+
+
+<%= simple_form_for @flat do |f| %>
+  <%= f.input :name %>
+  <%= f.input :address %>
+  <%= f.input :description %>
+  <%= f.input :price_per_night %>
+  <%= f.input :number_of_guests %>
+  <%= f.input :picture_url %>
+  <%= f.submit 'Create Flat', class: 'btn btn-primary' %>
+<% end %>

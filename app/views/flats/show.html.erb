@@ -1,0 +1,14 @@
+<h1><%= @flat.name %></h1>
+
+<% if @flat.picture_url.present? %>
+  <img src="<%= @flat.picture_url %>" alt="Flat image" class="img-fluid mb-4">
+<% end %>
+
+<p><strong>Address:</strong> <%= @flat.address %></p>
+<p><strong>Description:</strong> <%= @flat.description %></p>
+<p><strong>Price:</strong> <%= @flat.price_per_night %>€/night</p>
+<p><strong>Guests:</strong> <%= @flat.number_of_guests %></p>
+
+<%= link_to 'Edit', edit_flat_path(@flat), class: 'btn btn-warning' %>
+<%= link_to 'Delete', flat_path(flat), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+<%= link_to 'Back', flats_path, class: 'btn btn-secondary' %>
